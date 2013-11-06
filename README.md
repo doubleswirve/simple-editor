@@ -24,7 +24,7 @@ Todo
 ----
 
 * Keyboard events
-    * No carriage returns option in directives
+    * ~~No carriage returns option in directives~~
     * No more than _single_ whitespace
         * No `&nbsp;`
 * etc.
