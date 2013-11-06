@@ -1,0 +1,32 @@
+body {
+    font-family: Geneva;
+    color: #333;
+}
+
+#post-edit {
+    width: 600px;
+    padding: 20px;
+    margin: 30px auto;
+}
+
+#post-edit > h1 {
+    margin: 0 0 10px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+#post-edit > p {
+    margin: 0;
+    padding: 15px 0;
+    font-size: 16px;
+    font-style: italic;
+}
+
+#post-edit > div {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+[contenteditable]:focus {
+    outline: none;
+}

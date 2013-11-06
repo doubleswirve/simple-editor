@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ng Test</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body ng-app="editorApp">
+
+    <div ng-controller="PostCtrl" id="post-edit">
+
+      <h1 ng-model="post.title" contenteditable ignore-return></h1>
+      <p ng-model="post.meta.author" contenteditable ignore-return></p>
+      <div ng-model="post.body" contenteditable></div>
+
+    </div>
+
+    
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="js/1.js"></script>
+  </body>
+</html>
