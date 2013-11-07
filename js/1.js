@@ -40,6 +40,8 @@ angular.module('editorApp', [])
          */
         var userSelection;
 
+        var node, offset, text, html;
+
         if (window.getSelection) {
           userSelection = window.getSelection();
         } else if (document.selection) {
@@ -53,7 +55,8 @@ angular.module('editorApp', [])
             .replace(/\s{2,}/g, ' ')
             .replace(/(?:(>)\s+)|(?:\s+(<))/g, function(match, p1, p2){
               return (p1 !== undefined ? p1 : p2);
-            });
+            })
+            .trim();
           el.html(val);
         };
 
@@ -63,10 +66,6 @@ angular.module('editorApp', [])
         });
 
         el.bind('keypress', function(evt){
-          var node   = userSelection.focusNode
-            , offset = userSelection.focusOffset
-            , text   = userSelection.anchorNode.data
-            , html   = userSelection.anchorNode.parentNode.innerHTML;
           /**
            * Ignore carriage returns if specified by the directive attribute
            */
@@ -78,12 +77,19 @@ angular.module('editorApp', [])
            * Emulate Medium's single whitespace policy
            */
           if (32 === evt.which) {
+
+            offset = userSelection.focusOffset;
+            text   = userSelection.anchorNode.data;
+
             /**
              * The caret focus was preceded by whitespace
              */
             if (' ' === text[offset - 1]) {
               return evt.preventDefault();
             }
+
+            html   = userSelection.anchorNode.parentNode.innerHTML
+
             /**
              * The caret focus is right before a whitespace
              */
@@ -92,6 +98,7 @@ angular.module('editorApp', [])
               /**
                * Still move the caret one space ahead
                */
+              node   = userSelection.focusNode
               userSelection.collapse(node, Math.min(node.length, offset + 1));
             }
           }
