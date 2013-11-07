@@ -2,15 +2,16 @@
 <html>
   <head>
     <title>ng Test</title>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
   </head>
-  <body ng-app="editorApp">
+  <body data-ng-app="editorApp">
 
-    <div ng-controller="PostCtrl" id="post-edit">
+    <div data-ng-controller="PostCtrl" id="post-edit">
 
-      <h1 ng-model="post.title" contenteditable ignore-return></h1>
-      <p ng-model="post.meta.author" contenteditable ignore-return></p>
-      <div ng-model="post.body" contenteditable highlightable></div>
+      <h1 data-ng-model="post.title" contenteditable data-ignore-return></h1>
+      <p data-ng-model="post.meta.author" contenteditable data-ignore-return></p>
+      <div data-ng-model="post.body" contenteditable data-highlightable></div>
 
     </div>
 
