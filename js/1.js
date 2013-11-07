@@ -60,10 +60,20 @@ angular.module('editorApp', [])
           el.html(val);
         };
 
-        el.bind('blur keyup change paste', function(){
+        function syncAndSave(){
           scope.$apply(read);
           scope.save();
-        });
+        }
+
+        /**
+         * Bind data and save to server
+         */
+
+        el.bind('blur change keyup paste', syncAndSave);
+
+        /**
+         * Detect certain keyboard events
+         */
 
         el.bind('keypress', function(evt){
           /**
@@ -103,6 +113,10 @@ angular.module('editorApp', [])
             }
           }
 
+        });
+
+        el.bind('mouseup', function(){
+          
         });
 
         function read(){
