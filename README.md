@@ -33,11 +33,12 @@ Todo
             * Something smoother using CSS transitions
         * Positioning
             * Above the selection
-        * Async template
+        * ~~Async template~~
     * Basics
         * Bold, italic
     * Advanced
         * Pull quote
+        * Advanced tooltip (semantic options)
 * Only make Ajax request when content changes
 * Cross-browser
     * Calling native `String.trim`
