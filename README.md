@@ -28,3 +28,6 @@ Todo
     * ~~No more than _single_ whitespace~~
         * ~~No `&nbsp;`~~
 * Only make Ajax request when content changes
+* Cross-browser
+    * Calling native `String.trim`
+    * Using `window.getSelection`
