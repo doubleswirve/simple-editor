@@ -2,14 +2,14 @@
  * Highlighting Tools (e.g., bolding, italic, etc.)
  */
 
-editorApp.directive('highlightable', [function(){
+editorApp.directive('highlightable', ['$compile', '$timeout', function($compile, $timeout){
   return {
     restrict: 'A',
-    require: '?ngModel',
-    transclude: true,
-    templateUrl: 'js/templates/highlightable.html',
-    link: function(scope, el, attrs, ngModel){
-      if (!ngModel) return;
+    link: function(scope, el, attrs){
+      scope.highlighted = false;
+      var tooltip = angular.element('<div ng-show="highlighted">Highlight Tools</div>');
+      el.parent().append(tooltip);
+      $compile(tooltip)(scope);
 
       var userSelection, range;
 
@@ -22,17 +22,33 @@ editorApp.directive('highlightable', [function(){
       }
 
       el.bind('mouseup keyup', function(){
-        if ('Range' === userSelection.type) {
-          range = userSelection.getRangeAt(0).cloneRange();
-          range.collapse(false);
+        $timeout(function(){
+          if ('Range' === userSelection.type) {
+            scope.highlighted = true;
+            scope.$apply();
 
-          tempEl = document.createElement('span');
-          tempEl.id = 'temp-el';
-          range.insertNode(tempEl);
-          tempEl.parentNode.removeChild(tempEl);
-          setTimeout(function(){
 
-          }, 5000);
+            range = userSelection.getRangeAt(0).cloneRange();
+            range.collapse(false);
+
+            tempEl = document.createElement('span');
+            tempEl.id = 'temp-el';
+            range.insertNode(tempEl);
+            tempEl.parentNode.removeChild(tempEl);
+            setTimeout(function(){
+
+            }, 5000);
+          } else {
+            scope.highlighted = false;
+            scope.$apply();
+          }
+        });
+      });
+      
+      el.bind('blur', function(){
+        if (scope.highlighted) {
+          scope.highlighted = false;
+          scope.$apply();
         }
       });
     }

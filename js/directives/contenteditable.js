@@ -8,7 +8,6 @@ editorApp.directive('contenteditable', [function(){
     require: '?ngModel',
     link: function(scope, el, attrs, ngModel){
       if (!ngModel) return;
-
       /**
        * Some directives don't need returns (Hed/Dek)
        */
@@ -77,7 +76,7 @@ editorApp.directive('contenteditable', [function(){
             return evt.preventDefault();
           }
 
-          html   = userSelection.anchorNode.parentNode.innerHTML
+          html = userSelection.anchorNode.parentNode.innerHTML
 
           /**
            * The caret focus is right before a whitespace
