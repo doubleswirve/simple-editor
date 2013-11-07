@@ -27,6 +27,11 @@ Todo
     * ~~No carriage returns option in directives~~
     * ~~No more than _single_ whitespace~~
         * ~~No `&nbsp;`~~
+* Selection events
+    * Basics
+        * Bold, italic
+    * Advanced
+        * Pull quote
 * Only make Ajax request when content changes
 * Cross-browser
     * Calling native `String.trim`
