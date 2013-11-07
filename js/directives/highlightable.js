@@ -6,6 +6,11 @@ editorApp.directive('highlightable', ['$compile', '$timeout', function($compile,
   return {
     restrict: 'A',
     link: function(scope, el, attrs){
+      /**
+       * Element must be editable
+       */
+      if (undefined === attrs.contenteditable) return;
+
       scope.highlighted = false;
       var tooltip = angular.element('<div ng-show="highlighted">Highlight Tools</div>');
       el.parent().append(tooltip);
