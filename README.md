@@ -28,6 +28,12 @@ Todo
     * ~~No more than _single_ whitespace~~
         * ~~No `&nbsp;`~~
 * Selection events
+    * Prereqs
+        * ~~Show/hide~~
+            * Something smoother using CSS transitions
+        * Positioning
+            * Above the selection
+        * Async template
     * Basics
         * Bold, italic
     * Advanced
