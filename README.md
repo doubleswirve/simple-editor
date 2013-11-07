@@ -3,6 +3,8 @@ Simple Editor
 
 Goal: Create a rough sketch for a more involved editor.
 
+[Live example](http://simple-editor.eu1.frbit.net/)
+
 Features
 --------
 
