@@ -1,7 +1,7 @@
 Simple Editor
 =============
 
-*Goal:* Create a rough sketch for a more involved editor.
+Goal: Create a rough sketch for a more involved editor.
 
 Features
 --------
@@ -25,6 +25,6 @@ Todo
 
 * Keyboard events
     * ~~No carriage returns option in directives~~
-    * No more than _single_ whitespace
-        * No `&nbsp;`
-* etc.
+    * ~~No more than _single_ whitespace~~
+        * ~~No `&nbsp;`~~
+* Only make Ajax request when content changes
