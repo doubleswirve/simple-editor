@@ -182,22 +182,6 @@ editorApp.directive('contenteditable', [function(){
              */
 
             setCursor(parentNode, parentOffset);
-            /*
-            focusOffset++;
-
-            console.log(userSelection);
-            console.log(userSelection.focusNode.nextSibling);
-            console.log(userSelection.focusNode.parentNode.nextSibling);
-
-            if (focusOffset > focusNode.length) {
-              focusOffset = 0;
-              if (undefined === focusNode.nextSibling) {
-                focusNode = focusNode.parentNode.nextSibling;
-              } else {
-                focusNode = focusNode.nextSibling;
-              }
-            }
-            userSelection.collapse(focusNode, focusOffset); */
           }
         }
       });
