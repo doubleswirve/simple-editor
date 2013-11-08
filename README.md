@@ -38,7 +38,7 @@ Todo
             * ~~Above the selection~~
         * ~~Async template~~
     * Basics
-        * Bold, italic
+        * ~~Bold, italic~~
     * Advanced
         * Pull quote
         * Advanced tooltip (semantic options)
@@ -48,5 +48,6 @@ Todo
 * Cross-browser
     * Calling native `String.trim`
     * Using `window.getSelection`
-    * Using `el.getBoundingClientRect`
+    * Using `Element.getBoundingClientRect`
     * Using `user-select` CSS property for tooltip items
+    * Using `Element.getAttribute`

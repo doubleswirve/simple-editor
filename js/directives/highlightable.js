@@ -25,7 +25,8 @@ editorApp.directive(
 
           var tooltipEl;
 
-          var tooltipElHalfWidth;
+          var tooltipElHalfWidth
+            , tooltipCmd;
 
           scope.highlighted = false;
 
@@ -47,7 +48,13 @@ editorApp.directive(
 
               tooltipEl.bind('mousedown', function(evt){
                 evt.preventDefault();
-                console.log('clclcllccl');
+
+                tooltipCmd = evt.target.getAttribute('data-cmd');
+
+                if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
+                  document.execCommand(tooltipCmd);
+                  scope.save();
+                }
               });
             });
 

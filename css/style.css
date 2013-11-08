@@ -1,5 +1,5 @@
 body {
-    font-family: Geneva;
+    font-family: Times;
     color: #333;
 }
 
@@ -48,16 +48,20 @@ body {
 
 .highlightable-tooltip > li {
     display: inline-block;
-    padding: 5px;
+    padding: 5px 10px;
     color: #f8f8f8;
     cursor: pointer;
-    text-shadow: none;
-    transition: text-shadow 0.2s ease;
+    border-radius: 3px;
+    transition: text-shadow 0.2s ease, 
+                box-shadow 0.2s ease, 
+                background-color 0.2s ease;
     user-select: none;
 }
 
 .highlightable-tooltip > li:hover {
-    text-shadow: 1px 1px 2px #fff;
+    text-shadow: 1px 1px 2px #000;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    background-color: #383838;
 }
 
 .highlightable-bold {
