@@ -41,7 +41,7 @@ editorApp.directive(
 
           var userSelection, range;
 
-          var tempEl;
+          var tempEl, tempElRect;
 
           if (window.getSelection) {
             userSelection = window.getSelection();
@@ -50,6 +50,11 @@ editorApp.directive(
           }
 
           el.bind('mouseup keyup', function(){
+            /**
+             * Use timeout for edge case when user clicks on
+             * selection (it appears as Range at first although
+             * really a Caret)
+             */
             $timeout(function(){
               if ('Range' === userSelection.type) {
                 scope.highlighted = true;
@@ -62,10 +67,11 @@ editorApp.directive(
                 tempEl = document.createElement('span');
                 tempEl.id = 'temp-el';
                 range.insertNode(tempEl);
-                tempEl.parentNode.removeChild(tempEl);
-                setTimeout(function(){
 
-                }, 5000);
+                tempElRect = tempEl.getBoundingClientRect();
+                tooltipEl.css({ top: tempElRect.top +'px', left: tempElRect.left + 'px' });
+
+                tempEl.parentNode.removeChild(tempEl);
               } else {
                 scope.highlighted = false;
                 scope.$apply();

@@ -30,3 +30,8 @@ body {
 [contenteditable]:focus {
     outline: none;
 }
+
+.highlightable-tooltip {
+    position: absolute;
+    background: #eee;
+}

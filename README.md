@@ -34,6 +34,7 @@ Todo
         * ~~Show/hide~~
             * Something smoother using CSS transitions
         * Positioning
+            * ~~Rough placement~~
             * Above the selection
         * ~~Async template~~
     * Basics
@@ -45,3 +46,4 @@ Todo
 * Cross-browser
     * Calling native `String.trim`
     * Using `window.getSelection`
+    * Using `el.getBoundingClientRect`
