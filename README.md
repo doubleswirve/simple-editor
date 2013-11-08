@@ -39,6 +39,7 @@ Todo
         * ~~Async template~~
     * Basics
         * ~~Bold, italic~~
+        * Add keyboard shortcuts
     * Advanced
         * Pull quote
         * Advanced tooltip (semantic options)
