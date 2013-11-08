@@ -43,6 +43,8 @@ editorApp.directive(
 
           var tempEl, tempElRect;
 
+          var rect, rectTop, rectRight, rectLeft;
+
           if (window.getSelection) {
             userSelection = window.getSelection();
           } else if (document.selection) {
@@ -61,17 +63,18 @@ editorApp.directive(
                 scope.$apply();
 
 
-                range = userSelection.getRangeAt(0).cloneRange();
+                range     = userSelection.getRangeAt(0).cloneRange();
+                rect      = range.getBoundingClientRect();
+                rectTop   = rect.top;
+                rectRight = rect.right;
+                rectLeft  = rect.left;
+                
                 range.collapse(false);
 
-                tempEl = document.createElement('span');
-                tempEl.id = 'temp-el';
-                range.insertNode(tempEl);
-
-                tempElRect = tempEl.getBoundingClientRect();
-                tooltipEl.css({ top: tempElRect.top +'px', left: tempElRect.left + 'px' });
-
-                tempEl.parentNode.removeChild(tempEl);
+                tooltipEl.css({ 
+                  top: rectTop +'px', 
+                  left: ((rectRight + rectLeft) / 2 ) + 'px' 
+                });
               } else {
                 scope.highlighted = false;
                 scope.$apply();
