@@ -43,6 +43,8 @@ Todo
         * Pull quote
         * Advanced tooltip (semantic options)
 * Only make Ajax request when content changes
+    * ~~Limit to 1 request per 3s~~
+    * Still would like to only attempt requests when changes occur
 * Cross-browser
     * Calling native `String.trim`
     * Using `window.getSelection`
