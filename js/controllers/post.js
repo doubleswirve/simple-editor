@@ -13,11 +13,14 @@ editorApp.controller('PostCtrl', ['$scope', '$http', function($scope, $http){
     if ($scope.saving) return;
 
     $scope.saving = true;
-    $http
-      .post('ajax.php', $scope.post)
-      .success(function(data){
-        $scope.saving = false;
-      });
+    
+    setTimeout(function(){
+      $http
+        .post('ajax.php', $scope.post)
+        .success(function(data){
+          $scope.saving = false;
+        });
+    }, 3000);
   };
 
   $scope.saving = false;
