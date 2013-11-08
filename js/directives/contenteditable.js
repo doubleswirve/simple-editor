@@ -86,7 +86,7 @@ editorApp.directive('contenteditable', [function(){
             /**
              * Still move the caret one space ahead
              */
-            node   = userSelection.focusNode
+            node = userSelection.focusNode
             userSelection.collapse(node, Math.min(node.length, offset + 1));
           }
         }
