@@ -93,10 +93,6 @@ editorApp.directive('contenteditable', [function(){
 
       });
 
-      el.bind('mouseup', function(){
-        
-      });
-
       function read(){
         var html = el.html();
 
