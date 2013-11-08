@@ -35,7 +35,7 @@ Todo
             * Something smoother using CSS transitions
         * Positioning
             * ~~Rough placement~~
-            * Above the selection
+            * ~~Above the selection~~
         * ~~Async template~~
     * Basics
         * Bold, italic

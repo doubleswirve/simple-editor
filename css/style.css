@@ -37,6 +37,13 @@ body {
     border-radius: 3px;
     background: #000;
     list-style-type: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.highlightable-tooltip-active {
+    opacity: 1;
 }
 
 .highlightable-tooltip > li {

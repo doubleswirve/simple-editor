@@ -25,6 +25,8 @@ editorApp.directive(
 
           var tooltipEl;
 
+          var tooltipElHalfWidth;
+
           scope.highlighted = false;
 
           $http
@@ -33,6 +35,10 @@ editorApp.directive(
               tooltipEl = angular.element(data);
               el.parent().append(tooltipEl);
               $compile(tooltipEl)(scope);
+
+              var tooltipElRect = tooltipEl[0].getBoundingClientRect();
+
+              tooltipElHalfWidth = (tooltipElRect.right - tooltipElRect.left) / 2;
 
               /**
                * Bind tooltip to mousedown because it gets called
@@ -84,8 +90,8 @@ editorApp.directive(
                 range.collapse(false);
 
                 tooltipEl.css({ 
-                  top: (rectTop - 65) +'px', 
-                  left: ((rectRight + rectLeft) / 2 ) + 'px' 
+                  top: (rectTop - 70) +'px', 
+                  left: ((rectRight + rectLeft) / 2 - tooltipElHalfWidth ) + 'px' 
                 });
               } else {
                 scope.highlighted = false;

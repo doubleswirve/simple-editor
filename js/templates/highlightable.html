@@ -1,4 +1,6 @@
-<ul ng-show="highlighted" class="highlightable-tooltip">
+<ul 
+  data-ng-class="{ 'highlightable-tooltip-active': highlighted }" 
+  class="highlightable-tooltip">
   <li class="highlightable-bold">B</li>
   <li class="highlightable-italic">i</li>
 </ul>
