@@ -33,6 +33,16 @@ editorApp.directive(
               tooltipEl = angular.element(data);
               el.parent().append(tooltipEl);
               $compile(tooltipEl)(scope);
+
+              /**
+               * Bind tooltip to mousedown because it gets called
+               * before the other events
+               */
+
+              tooltipEl.bind('mousedown', function(evt){
+                evt.preventDefault();
+                console.log('clclcllccl');
+              });
             });
 
           /**
@@ -52,11 +62,13 @@ editorApp.directive(
           }
 
           el.bind('mouseup keyup', function(){
+
             /**
              * Use timeout for edge case when user clicks on
              * selection (it appears as Range at first although
              * really a Caret)
              */
+
             $timeout(function(){
               if ('Range' === userSelection.type) {
                 scope.highlighted = true;
@@ -72,7 +84,7 @@ editorApp.directive(
                 range.collapse(false);
 
                 tooltipEl.css({ 
-                  top: rectTop +'px', 
+                  top: (rectTop - 65) +'px', 
                   left: ((rectRight + rectLeft) / 2 ) + 'px' 
                 });
               } else {
