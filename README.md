@@ -49,3 +49,4 @@ Todo
     * Calling native `String.trim`
     * Using `window.getSelection`
     * Using `el.getBoundingClientRect`
+    * Using `user-select` CSS property for tooltip items
