@@ -52,15 +52,26 @@ editorApp.directive(
                * before the other events
                */
 
+              var node;
+
               tooltipEl.bind('mousedown', function(evt){
                 evt.preventDefault();
 
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
-                if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
-                  document.execCommand(tooltipCmd);
-                  scope.save();
+                var range = userSelection.getRangeAt(0);
+
+                if ('bold' === tooltipCmd) {
+                  node = document.createElement('strong');
+                  node.appendChild(range.extractContents());
+                  range.insertNode(node);
+                } else if ('italic' === tooltipCmd) {
+                  node = document.createElement('em');
+                  node.appendChild(range.extractContents());
+                  range.insertNode(node);
                 }
+
+                scope.save();
               });
             });
 
