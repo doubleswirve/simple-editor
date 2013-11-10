@@ -20,13 +20,19 @@ editorApp.directive(
           if (undefined === attrs.contenteditable) return;
 
           /**
+           * Shared Selection and Range variables
+           */
+
+          var userSelection = window.getSelection()
+            , range;
+
+          /**
            * Obtain highlight tool template
            */
 
           var tooltipEl;
 
-          var tooltipElHalfWidth
-            , tooltipCmd;
+          var tooltipElHalfWidth, tooltipCmd;
 
           scope.highlighted = false;
 
@@ -62,17 +68,7 @@ editorApp.directive(
            * Handle highlighting events
            */
 
-          var userSelection, range;
-
-          var tempEl, tempElRect;
-
           var rect, rectTop, rectRight, rectLeft;
-
-          if (window.getSelection) {
-            userSelection = window.getSelection();
-          } else if (document.selection) {
-            userSelection = document.selection.createRange();
-          }
 
           el.bind('mouseup keyup', function(){
 
@@ -88,7 +84,7 @@ editorApp.directive(
                 scope.$apply();
 
 
-                range     = userSelection.getRangeAt(0).cloneRange();
+                range     = userSelection.getRangeAt(0);
                 rect      = range.getBoundingClientRect();
                 rectTop   = rect.top;
                 rectRight = rect.right;

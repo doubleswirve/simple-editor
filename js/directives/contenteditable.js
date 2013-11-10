@@ -52,9 +52,9 @@ editorApp.directive('contenteditable', [function(){
       /**
        * Selection object for cursor position/highlighting
        */
-      var userSelection;
-
-      var range, preCaretRange;
+      var userSelection = window.getSelection()
+        , range
+        , preCaretRange;
 
       var parentNode
         , parentOffset
@@ -64,12 +64,6 @@ editorApp.directive('contenteditable', [function(){
         ];
 
       var focusNode, focusOffset;
-
-      if (window.getSelection) {
-        userSelection = window.getSelection();
-      } else if (document.selection) {
-        userSelection = document.selection.createRange();
-      }
 
       function setCursor(parentNode, parentOffset) {
         parentOffset++;
