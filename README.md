@@ -39,7 +39,9 @@ Todo
         * ~~Async template~~
     * Basics
         * ~~Bold, italic~~
+            * Maintain caret position after bold and italic
         * Add keyboard shortcuts
+        * Remove whitespace during carriage return
     * Advanced
         * Pull quote
         * Advanced tooltip (semantic options)

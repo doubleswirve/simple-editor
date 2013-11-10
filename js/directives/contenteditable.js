@@ -141,7 +141,6 @@ editorApp.directive('contenteditable', [function(){
          */
 
         if (3 !== userSelection.anchorNode.nodeType) {
-          console.log('here');
           parentNode = focusNode;
         } else{
           parentNode = userSelection.anchorNode.parentNode;
