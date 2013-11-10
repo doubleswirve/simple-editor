@@ -66,8 +66,6 @@ editorApp.directive('contenteditable', [function(){
       var focusNode, focusOffset;
 
       function setCursor(parentNode, parentOffset) {
-        parentOffset++;
-
         var charIndex = 0, nextCharIndex, len, delta;
 
         var range = document.createRange();
@@ -175,7 +173,7 @@ editorApp.directive('contenteditable', [function(){
              * Still move the caret one space ahead
              */
 
-            setCursor(parentNode, parentOffset);
+            setCursor(parentNode, parentOffset + 1);
           }
         }
       });
