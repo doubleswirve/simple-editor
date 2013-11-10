@@ -59,8 +59,6 @@ editorApp.directive(
 
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
-                var range = userSelection.getRangeAt(0);
-
                 if ('bold' === tooltipCmd) {
                   node = document.createElement('strong');
                   node.appendChild(range.extractContents());
@@ -84,34 +82,46 @@ editorApp.directive(
           el.bind('mouseup keyup', function(){
 
             /**
-             * Use timeout for edge case when user clicks on
-             * selection (it appears as Range at first although
-             * really a Caret)
+             * Check to make sure selection has different
+             * start and end values (i.e., something was
+             * selected, not just a cursor)
              */
 
-            $timeout(function(){
-              if ('Range' === userSelection.type) {
-                scope.highlighted = true;
-                scope.$apply();
+            if (!userSelection.isCollapsed) {
 
+              /**
+               * Store the current range for reference
+               */
 
-                range     = userSelection.getRangeAt(0);
-                rect      = range.getBoundingClientRect();
-                rectTop   = rect.top;
-                rectRight = rect.right;
-                rectLeft  = rect.left;
-                
-                range.collapse(false);
+              range     = userSelection.getRangeAt(0);
 
-                tooltipEl.css({ 
-                  top: (rectTop - 70) +'px', 
-                  left: ((rectRight + rectLeft) / 2 - tooltipElHalfWidth ) + 'px' 
-                });
-              } else {
-                scope.highlighted = false;
-                scope.$apply();
-              }
-            });
+              /**
+               * Get range rectange details so we know
+               * where to place the tooltip
+               */
+
+              rect      = range.getBoundingClientRect();
+              rectTop   = rect.top;
+              rectRight = rect.right;
+              rectLeft  = rect.left;
+
+              /**
+               * Use jqLite to establish the tooltip's position and
+               * let Angular know to change the tooltip's class
+               */
+
+              tooltipEl.css({ 
+                top: (rectTop - 70) +'px', 
+                left: ((rectRight + rectLeft) / 2 - tooltipElHalfWidth ) + 'px' 
+              });
+
+              scope.highlighted = true;
+
+            } else {
+              scope.highlighted = false;
+            }
+
+            scope.$apply();
           });
           
           /**
