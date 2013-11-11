@@ -112,7 +112,11 @@ editorApp.directive('contenteditable', [function(){
 
         keyCode = evt.which;
 
-        // TODO: maybe do an array check like below
+        /**
+         * For now we are only concerned with carriage returns,
+         * spaces and backspaces
+         */
+        
         if (
           keyCode !== 13 &&
           keyCode !== 8 &&
@@ -209,6 +213,27 @@ editorApp.directive('contenteditable', [function(){
              */
             
             setCursor(parentNode, parentOffset + 1);
+          }
+        }
+      });
+
+      /**
+       * Remove leading and trailing whitespaces resulting
+       * from carriage returns
+       */
+
+      el.bind('keyup', function(evt){
+        if (
+          13 === keyCode &&
+          3 === userSelection.focusNode.nodeType
+        ) {
+          focusNode = userSelection.focusNode;
+          focusNode.textContent = focusNode.textContent.trim();
+          if ('' === focusNode.textContent) {
+            focusNode.parentNode.appendChild(document.createElement('br'));
+            range = document.createRange();
+            range.setStart(focusNode.parentNode, 0);
+            range.setEnd(focusNode.parentNode, 0);
           }
         }
       });
