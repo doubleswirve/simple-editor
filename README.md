@@ -37,6 +37,7 @@ Todo
             * ~~Rough placement~~
             * ~~Above the selection~~
         * ~~Async template~~
+        * Confirmation upon leaving page when outstanding Ajax request
     * Basics
         * ~~Bold, italic~~
             * Maintain caret position after bold and italic
