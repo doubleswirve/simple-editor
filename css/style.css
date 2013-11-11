@@ -24,6 +24,7 @@ body {
 
 #post-edit > div {
     font-size: 20px;
+    background: #e8e8e8;
     line-height: 30px;
 }
 
@@ -33,6 +34,7 @@ body {
 
 .highlightable-tooltip {
     position: absolute;
+    top: -10px; left: -10px;
     padding: 5px;
     border-radius: 3px;
     background: #000;

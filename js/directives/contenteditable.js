@@ -2,7 +2,7 @@
  * Contenteditable Directive (mimics Medium.com)
  */
 
-editorApp.directive('contenteditable', [function(){
+editorApp.directive('contenteditable', ['$timeout', function($timeout){
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -27,7 +27,13 @@ editorApp.directive('contenteditable', [function(){
           .trim();
         el.html(val);
 
-        firstChild = el[0].firstChild;
+        /**
+         * Firefox needs some time to render the view
+         */
+        
+        $timeout(function(){
+          firstChild = el[0].firstChild;
+        }, 0);
       };
 
       /**
@@ -182,38 +188,37 @@ editorApp.directive('contenteditable', [function(){
         }
 
         /**
-         * Emulate Medium's single whitespace policy
+         * Mimic Medium's single whitespace policy
          */
 
-        if (32 === keyCode) {
+        if (32 !== keyCode) return true;
+        
+        /**
+         * The caret focus was preceded by whitespace or at beginning of parent
+         */
+        
+        if (
+          /\s+/g.test(parentTextContent[parentOffset - 1]) ||
+          undefined === parentTextContent[parentOffset - 1]
+        ) {
+          return evt.preventDefault();
+        }
+
+        /**
+         * The caret focus is right before a whitespace
+         */
+
+        if (
+          /\s+/g.test(parentTextContent[parentOffset]) &&
+          parentOffset + 1 < parentTextContent.length
+        ) {
+          evt.preventDefault();
 
           /**
-           * The caret focus was preceded by whitespace or at beginning of parent
+           * Still move the caret one space ahead
            */
           
-          if (
-            /\s+/g.test(parentTextContent[parentOffset - 1]) ||
-            undefined === parentTextContent[parentOffset - 1]
-          ) {
-            return evt.preventDefault();
-          }
-
-          /**
-           * The caret focus is right before a whitespace
-           */
-
-          if (
-            /\s+/g.test(parentTextContent[parentOffset]) &&
-            parentOffset + 1 < parentTextContent.length
-          ) {
-            evt.preventDefault();
-
-            /**
-             * Still move the caret one space ahead
-             */
-            
-            setCursor(parentNode, parentOffset + 1);
-          }
+          setCursor(parentNode, parentOffset + 1);
         }
       });
 
@@ -223,19 +228,65 @@ editorApp.directive('contenteditable', [function(){
        */
 
       el.bind('keyup', function(evt){
-        if (
-          13 === keyCode &&
-          3 === userSelection.focusNode.nodeType
-        ) {
-          focusNode = userSelection.focusNode;
-          focusNode.textContent = focusNode.textContent.trim();
-          if ('' === focusNode.textContent) {
-            focusNode.parentNode.appendChild(document.createElement('br'));
-            range = document.createRange();
-            range.setStart(focusNode.parentNode, 0);
-            range.setEnd(focusNode.parentNode, 0);
+
+        if (13 !== keyCode) return true;
+
+        /**
+         * Reinitialize `firstChild` because Firefox clones
+         * it on carriage returns, so it will otherwise point
+         * to the new element
+         */
+
+        firstChild = el[0].firstChild;
+
+        /**
+         * Perform extra handling if carriage return produces
+         * an empty text node
+         */
+
+        focusNode = userSelection.focusNode;
+
+        if (3 !== focusNode.nodeType) return true;
+
+        /**
+         * Trim the text content (Chrome adds a &nbsp; to the
+         * next line)
+         */
+
+        var textContent = focusNode.textContent = focusNode.textContent.trim();
+
+        if ('' !== textContent) return true;
+
+        /**
+         * Because the text node is empty, we need to grab its
+         * parent and iterate over the children, adding a BR tag
+         * if one is _not_ already present (Firefox adds a BR tag
+         * automatically, sometimes...)
+         */
+
+        var parent = focusNode.parentNode
+          , child = parentNode.firstChild
+          , hasBr = false;
+
+        do {
+          if (child.tagName && 'BR' === child.tagName.toUpperCase()) {
+            hasBr = true;
+            break;
           }
+        } while(child = child.nextSibling);
+
+        if (!hasBr) {
+          parentNode.appendChild(document.createElement('br'));
         }
+
+        /**
+         * Finally we need to manually set the caret because changing
+         * the text content and HTML will mess it up
+         */
+
+        range = document.createRange();
+        range.setStart(parent, 0);
+        range.setEnd(parent, 0);
       });
     }
   };
