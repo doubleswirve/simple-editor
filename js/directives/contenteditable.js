@@ -116,6 +116,12 @@ editorApp.directive('contenteditable', ['$timeout', function($timeout){
 
       el.bind('keydown', function(evt){
 
+        /**
+         * Keep reminding Firefox who the first child is
+         */
+
+        firstChild = el[0].firstChild;
+
         keyCode = evt.which;
 
         /**
@@ -191,34 +197,35 @@ editorApp.directive('contenteditable', ['$timeout', function($timeout){
          * Mimic Medium's single whitespace policy
          */
 
-        if (32 !== keyCode) return true;
-        
-        /**
-         * The caret focus was preceded by whitespace or at beginning of parent
-         */
-        
-        if (
-          /\s+/g.test(parentTextContent[parentOffset - 1]) ||
-          undefined === parentTextContent[parentOffset - 1]
-        ) {
-          return evt.preventDefault();
-        }
-
-        /**
-         * The caret focus is right before a whitespace
-         */
-
-        if (
-          /\s+/g.test(parentTextContent[parentOffset]) &&
-          parentOffset + 1 < parentTextContent.length
-        ) {
-          evt.preventDefault();
+        if (32 === keyCode) {
 
           /**
-           * Still move the caret one space ahead
+           * The caret focus was preceded by whitespace or at beginning of parent
            */
           
-          setCursor(parentNode, parentOffset + 1);
+          if (
+            /\s+/g.test(parentTextContent[parentOffset - 1]) ||
+            undefined === parentTextContent[parentOffset - 1]
+          ) {
+            return evt.preventDefault();
+          }
+
+          /**
+           * The caret focus is right before a whitespace
+           */
+
+          if (
+            /\s+/g.test(parentTextContent[parentOffset]) &&
+            parentOffset + 1 < parentTextContent.length
+          ) {
+            evt.preventDefault();
+
+            /**
+             * Still move the caret one space ahead
+             */
+            
+            setCursor(parentNode, parentOffset + 1);
+          }
         }
       });
 
@@ -228,6 +235,13 @@ editorApp.directive('contenteditable', ['$timeout', function($timeout){
        */
 
       el.bind('keyup', function(evt){
+
+        /**
+         * Keep reminding firefox who the first child is
+         * (see below)
+         */
+
+        firstChild = el[0].firstChild;
 
         if (13 !== keyCode) return true;
 
@@ -255,8 +269,6 @@ editorApp.directive('contenteditable', ['$timeout', function($timeout){
 
         var textContent = focusNode.textContent = focusNode.textContent.trim();
 
-        if ('' !== textContent) return true;
-
         /**
          * Because the text node is empty, we need to grab its
          * parent and iterate over the children, adding a BR tag
@@ -264,10 +276,12 @@ editorApp.directive('contenteditable', ['$timeout', function($timeout){
          * automatically, sometimes...)
          */
 
-        var parent = focusNode.parentNode
-          , child = parentNode.firstChild
-          , hasBr = false;
+        if ('' !== textContent) return true;
 
+        var parent = focusNode.parentNode
+          , child = parent.firstChild
+          , hasBr = false;
+        
         do {
           if (child.tagName && 'BR' === child.tagName.toUpperCase()) {
             hasBr = true;
@@ -276,17 +290,19 @@ editorApp.directive('contenteditable', ['$timeout', function($timeout){
         } while(child = child.nextSibling);
 
         if (!hasBr) {
-          parentNode.appendChild(document.createElement('br'));
+          parent.appendChild(document.createElement('br'));
         }
 
         /**
          * Finally we need to manually set the caret because changing
          * the text content and HTML will mess it up
          */
-
+        
         range = document.createRange();
         range.setStart(parent, 0);
-        range.setEnd(parent, 0);
+        range.collapse(true);
+        userSelection.removeAllRanges();
+        userSelection.addRange(range);
       });
     }
   };
