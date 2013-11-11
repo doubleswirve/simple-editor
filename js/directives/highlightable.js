@@ -27,6 +27,8 @@ editorApp.directive(
           var userSelection = rangeUtility.selection
             , range;
 
+          var commonAncestor;
+
           /**
            * Obtain highlight tool template
            */
@@ -61,9 +63,11 @@ editorApp.directive(
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
                 if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
-                  document.execCommand(tooltipCmd);
+                  document.execCommand(tooltipCmd, false, null);
+                } else if ('H2' === tooltipCmd || 'H3' === tooltipCmd) {
+                  document.execCommand('formatBlock', false, tooltipCmd);
                 }
-
+                
                 scope.save();
               });
             });
@@ -89,6 +93,22 @@ editorApp.directive(
                */
 
               range = userSelection.getRangeAt(0);
+
+              /**
+               * Check common ancestor so we don't apply styles
+               * across main block level elements (this is another
+               * convention ripped from Medium). Maybe this should
+               * be altered to allow for multiline pull quotes?
+               */
+
+              commonAncestor = range.commonAncestorContainer;
+
+              if (
+                commonAncestor.tagName &&
+                'DIV' === commonAncestor.tagName.toUpperCase()
+              ) {
+                return true;
+              }
 
               /**
                * Get range rectange details so we know
