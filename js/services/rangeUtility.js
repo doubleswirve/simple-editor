@@ -6,6 +6,12 @@
 editorApp.service('rangeUtility', [function(){
 
   /**
+   * `window.getSelection` singleton
+   */
+
+  this.selection = window.getSelection();
+
+  /**
    * Set caret position within a specified node (node)
    * with an offset relative to that node
    */
@@ -41,8 +47,7 @@ editorApp.service('rangeUtility', [function(){
       }
     }
 
-    var userSelection = window.getSelection();
-    userSelection.removeAllRanges();
-    userSelection.addRange(range);
+    this.selection.removeAllRanges();
+    this.selection.addRange(range);
   };
 }]);

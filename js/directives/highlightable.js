@@ -8,7 +8,8 @@ editorApp.directive(
     '$compile', 
     '$timeout',
     '$http',
-    function($compile, $timeout, $http){
+    'rangeUtility',
+    function($compile, $timeout, $http, rangeUtility){
       return {
         restrict: 'A',
         link: function(scope, el, attrs){
@@ -23,7 +24,7 @@ editorApp.directive(
            * Shared Selection and Range variables
            */
 
-          var userSelection = window.getSelection()
+          var userSelection = rangeUtility.selection
             , range;
 
           /**

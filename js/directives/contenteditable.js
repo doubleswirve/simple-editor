@@ -69,7 +69,7 @@ editorApp.directive(
            * Selection object for cursor position/highlighting
            */
 
-          var userSelection = window.getSelection()
+          var userSelection = rangeUtility.selection
             , range
             , preCaretRange;
 
