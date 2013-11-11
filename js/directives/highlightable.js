@@ -60,14 +60,8 @@ editorApp.directive(
 
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
-                if ('bold' === tooltipCmd) {
-                  node = document.createElement('strong');
-                  node.appendChild(range.extractContents());
-                  range.insertNode(node);
-                } else if ('italic' === tooltipCmd) {
-                  node = document.createElement('em');
-                  node.appendChild(range.extractContents());
-                  range.insertNode(node);
+                if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
+                  document.execCommand(tooltipCmd);
                 }
 
                 scope.save();
