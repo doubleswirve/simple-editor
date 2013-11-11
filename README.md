@@ -37,18 +37,20 @@ Todo
             * ~~Rough placement~~
             * ~~Above the selection~~
         * ~~Async template~~
-        * Confirmation upon leaving page when outstanding Ajax request
     * Basics
         * ~~Bold, italic~~
             * Maintain caret position after bold and italic
         * Add keyboard shortcuts
         * Remove whitespace during carriage return
+        * Fix Firefox caret positioning on carriage return ignores
     * Advanced
         * Pull quote
         * Advanced tooltip (semantic options)
 * Only make Ajax request when content changes
     * ~~Limit to 1 request per 3s~~
     * Still would like to only attempt requests when changes occur
+* Confirmation upon leaving page when outstanding Ajax request
+* Decide on Selection/Range utility design (see commit comment)
 * Cross-browser
     * Calling native `String.trim`
     * Using `window.getSelection`
