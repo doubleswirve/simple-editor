@@ -75,3 +75,8 @@ body {
     font-style: italic;
     text-transform: lowercase;
 }
+
+.highlightable-italic {
+    font-weight: bold;
+    text-transform: uppercase;
+}
