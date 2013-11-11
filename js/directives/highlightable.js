@@ -93,7 +93,7 @@ editorApp.directive(
                * Store the current range for reference
                */
 
-              range     = userSelection.getRangeAt(0);
+              range = userSelection.getRangeAt(0);
 
               /**
                * Get range rectange details so we know
