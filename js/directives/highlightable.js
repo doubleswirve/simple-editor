@@ -80,18 +80,15 @@ editorApp.directive(
                   }
 
                 } else if ('Q' === tooltipCmd) {
-                  var t = document.createTextNode(userSelection.toString())
-                    , d = document.createElement('div')
-                    , b = document.createElement('blockquote');
 
-                  b.appendChild(t);
-                  d.appendChild(b);
+                  var s = '' + Date.now();
 
-                  d.className = 'quote';
-                  d.setAttribute('contenteditable', 'false');
+                  var c = $compile(
+                    '<div data-quote="{{ \'' + s + '\' }}"></div>'
+                  )(scope);
 
-                  el[0].insertBefore(d, parentNode);
-
+                  //parentNode.insertAdjacentHTML('beforebegin', c);
+                  el.append(c);
                   
                 }
                 

@@ -94,4 +94,10 @@ body {
 .quote {
     float: left;
     background: yellow;
+    position: relative;
+}
+.quote > button {
+    display: block;
+    position: absolute;
+    top: 0; right: 0;
 }
