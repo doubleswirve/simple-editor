@@ -42,7 +42,7 @@ Todo
             * Maintain caret position after bold and italic
         * Add keyboard shortcuts
         * Remove whitespace during carriage return
-        * Fix Firefox caret positioning on carriage return ignores
+        * ~~Fix Firefox caret positioning on carriage return ignores~~
         * Allow `H2` and `H3` to be undone via the tooltip
     * Advanced
         * Pull quote

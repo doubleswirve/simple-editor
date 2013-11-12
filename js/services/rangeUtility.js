@@ -62,7 +62,7 @@ editorApp.service('rangeUtility', [function(){
         }
       }
     }
-
+    
     this.selection.removeAllRanges();
     this.selection.addRange(range);
   };

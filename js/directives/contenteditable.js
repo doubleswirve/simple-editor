@@ -125,14 +125,6 @@ editorApp.directive(
             }
 
             /**
-             * Ignore carriage returns if specified by the directive attribute
-             */
-
-            if (ignoreReturn && 13 === keyCode) {
-              return evt.preventDefault();
-            }
-
-            /**
              * Obtain an eligible container node
              */
 
@@ -146,6 +138,14 @@ editorApp.directive(
 
             range = userSelection.getRangeAt(0);
             parentOffset = rangeUtility.getOffsetRelativeTo(parentNode);
+
+            /**
+             * Ignore carriage returns if specified by the directive attribute
+             */
+
+            if (ignoreReturn && 13 === keyCode) {
+              return evt.preventDefault();
+            }
 
             /**
              * Prevent backspace from deleting the first child node (e.g., We don't want
@@ -212,7 +212,12 @@ editorApp.directive(
 
             firstChild = el[0].firstChild;
 
-            if (13 !== keyCode) return true;
+            /**
+             * Return early if it was not a carriage return or
+             * if returns are being ignored by the element
+             */
+
+            if (13 !== keyCode || ignoreReturn) return true;
 
             /**
              * Reinitialize `firstChild` because Firefox clones
