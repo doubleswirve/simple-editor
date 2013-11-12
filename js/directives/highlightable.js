@@ -109,6 +109,7 @@ editorApp.directive(
                   commonAncestor.tagName &&
                   'DIV' === commonAncestor.tagName.toUpperCase()
                 ) {
+                  scope.highlighted = false;
                   return true;
                 }
 
