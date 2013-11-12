@@ -28,6 +28,16 @@ body {
     line-height: 30px;
 }
 
+#post-edit > div:before,
+#post-edit > div:after {
+    content: " ";
+    display: table;
+}
+
+#post-edit > div:after {
+    clear: both;
+}
+
 [contenteditable]:focus {
     outline: none;
 }
@@ -79,4 +89,9 @@ body {
 .highlightable-italic {
     font-weight: bold;
     text-transform: uppercase;
+}
+
+.quote {
+    float: left;
+    background: yellow;
 }

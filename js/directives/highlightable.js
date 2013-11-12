@@ -64,11 +64,11 @@ editorApp.directive(
 
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
+                parentNode = editorUtility.getContainerNode(userSelection);
+
                 if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
                   document.execCommand(tooltipCmd, false, null);
                 } else if ('H2' === tooltipCmd || 'H3' === tooltipCmd) {
-
-                  parentNode = editorUtility.getContainerNode(userSelection);
 
                   if (
                     parentNode.tagName && 
@@ -78,6 +78,21 @@ editorApp.directive(
                   } else {
                     document.execCommand('formatBlock', false, tooltipCmd);
                   }
+
+                } else if ('Q' === tooltipCmd) {
+                  var t = document.createTextNode(userSelection.toString())
+                    , d = document.createElement('div')
+                    , b = document.createElement('blockquote');
+
+                  b.appendChild(t);
+                  d.appendChild(b);
+
+                  d.className = 'quote';
+                  d.setAttribute('contenteditable', 'false');
+
+                  el[0].insertBefore(d, parentNode);
+
+                  
                 }
                 
                 scope.save();
