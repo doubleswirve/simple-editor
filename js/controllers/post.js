@@ -13,15 +13,6 @@ editorApp.controller('PostCtrl', ['$scope', '$http', function($scope, $http){
     if ($scope.saving) return;
 
     $scope.saving = true;
-
-    /**
-     * Prevent Firefox from storing BR tags that it
-     * generates
-     */
-
-    $scope.post.body = $scope.post.body
-      .replace(/<br>/ig, ' ')
-      .replace(/&nbsp;/ig, ' ');
     
     setTimeout(function(){
       $http
