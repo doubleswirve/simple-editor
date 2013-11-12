@@ -12,12 +12,14 @@ editorApp.service('editorUtility', [function(){
    * manageable.
    */
 
-  this.eligibleContainerNodes = ['H1', 'H2', 'P', 'LI', 'UL'];
+  this.eligibleContainerNodes = ['H2', 'H3', 'P', 'LI', 'UL'];
 
   /**
    * Retrieve an eligible parent node relative to the
    * selection 
    */
+
+  var i = 0;
 
   this.getContainerNode = function(selection){
     var anchorNode = selection.anchorNode

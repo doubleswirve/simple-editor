@@ -9,7 +9,8 @@ editorApp.directive(
     '$timeout',
     '$http',
     'rangeUtility',
-    function($compile, $timeout, $http, rangeUtility){
+    'editorUtility',
+    function($compile, $timeout, $http, rangeUtility, editorUtility){
       return {
         restrict: 'A',
         link: function(scope, el, attrs){
@@ -55,7 +56,8 @@ editorApp.directive(
                * before the other events
                */
 
-              var node;
+
+              var parentNode;
 
               tooltipEl.bind('mousedown', function(evt){
                 evt.preventDefault();
@@ -65,7 +67,17 @@ editorApp.directive(
                 if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
                   document.execCommand(tooltipCmd, false, null);
                 } else if ('H2' === tooltipCmd || 'H3' === tooltipCmd) {
-                  document.execCommand('formatBlock', false, tooltipCmd);
+
+                  parentNode = editorUtility.getContainerNode(userSelection);
+
+                  if (
+                    parentNode.tagName && 
+                    tooltipCmd === parentNode.tagName.toUpperCase()
+                  ) {
+                    document.execCommand('formatBlock', false, 'P');
+                  } else {
+                    document.execCommand('formatBlock', false, tooltipCmd);
+                  }
                 }
                 
                 scope.save();
