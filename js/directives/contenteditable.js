@@ -7,7 +7,8 @@ editorApp.directive(
   [
     '$timeout', 
     'rangeUtility',
-    function($timeout, rangeUtility){
+    'editorUtility',
+    function($timeout, rangeUtility, editorUtility){
       return {
         restrict: 'A',
         require: '?ngModel',
@@ -25,10 +26,26 @@ editorApp.directive(
            */
 
           ngModel.$render = function(){
+
+            var rgx = new RegExp(
+              '\\s*<(\\/)?(' + 
+              editorUtility.eligibleContainerNodes.join('|') +
+              ')>\\s*',
+              'gi'
+            );
+
             var val = ngModel.$viewValue || '';
+
             val = val
-              .replace(/&nbsp;/g, ' ')
+              .replace(/&nbsp;/ig, ' ')
+              .replace(/<br>/ig, ' ')
               .replace(/\s{2,}/g, ' ')
+              .replace(rgx, function(match, p1, p2){
+                if (p1) {
+                  return '&nbsp;</' + p2 + '>';
+                }
+                return '<' + p2 + '>';
+              })
               .trim();
             el.html(val);
 
@@ -74,12 +91,9 @@ editorApp.directive(
 
           var parentNode
             , parentOffset
-            , parentTextContent
-            , eligibleParentNodes = [
-              'H1', 'H2', 'P', 'LI'
-            ];
+            , parentTextContent;
 
-          var focusNode, focusOffset;
+          var focusNode;
 
           var keyCode;
 
@@ -115,30 +129,14 @@ editorApp.directive(
              */
 
             if (ignoreReturn && 13 === keyCode) {
-              console.log('FF here');
               return evt.preventDefault();
             }
 
             /**
-             * Obtain the focus node and the caret's relative offset
+             * Obtain an eligible container node
              */
 
-            focusNode = userSelection.focusNode;
-            focusOffset = userSelection.focusOffset;
-
-            /**
-             * Obtain an eligible parent node by traversing up while indexOf is -1
-             */
-
-            if (3 !== userSelection.anchorNode.nodeType) {
-              parentNode = focusNode;
-            } else{
-              parentNode = userSelection.anchorNode.parentNode;
-
-              while (!~eligibleParentNodes.indexOf(parentNode.tagName.toUpperCase())) {
-                parentNode = parentNode.parentNode;
-              }
-            }
+            parentNode = editorUtility.getContainerNode(userSelection);
 
             parentTextContent = parentNode.textContent;
 
@@ -188,6 +186,7 @@ editorApp.directive(
                 /\s+/g.test(parentTextContent[parentOffset]) &&
                 parentOffset + 1 < parentTextContent.length
               ) {
+
                 evt.preventDefault();
 
                 /**

@@ -62,10 +62,21 @@ editorApp.directive(
 
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
+                /*
                 if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
                   document.execCommand(tooltipCmd, false, null);
                 } else if ('H2' === tooltipCmd || 'H3' === tooltipCmd) {
                   document.execCommand('formatBlock', false, tooltipCmd);
+                }*/
+
+                if ('bold' === tooltipCmd) {
+                  var strong = document.createElement('strong');
+                  strong.appendChild(range.extractContents());
+                  range.insertNode(strong);
+                } else if ('italic' === tooltipCmd) {
+                  var em = document.createElement('em');
+                  em.appendChild(range.extractContents());
+                  range.insertNode(em);
                 }
                 
                 scope.save();
