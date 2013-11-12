@@ -62,21 +62,10 @@ editorApp.directive(
 
                 tooltipCmd = evt.target.getAttribute('data-cmd');
 
-                /*
                 if ('bold' === tooltipCmd || 'italic' === tooltipCmd) {
                   document.execCommand(tooltipCmd, false, null);
                 } else if ('H2' === tooltipCmd || 'H3' === tooltipCmd) {
                   document.execCommand('formatBlock', false, tooltipCmd);
-                }*/
-
-                if ('bold' === tooltipCmd) {
-                  var strong = document.createElement('strong');
-                  strong.appendChild(range.extractContents());
-                  range.insertNode(strong);
-                } else if ('italic' === tooltipCmd) {
-                  var em = document.createElement('em');
-                  em.appendChild(range.extractContents());
-                  range.insertNode(em);
                 }
                 
                 scope.save();
@@ -94,60 +83,63 @@ editorApp.directive(
             /**
              * Check to make sure selection has different
              * start and end values (i.e., something was
-             * selected, not just a cursor)
+             * selected, not just a cursor) (give Firefox
+             * some time to think)
              */
 
-            if (!userSelection.isCollapsed) {
+            $timeout(function(){
+              if (!userSelection.isCollapsed) {
 
-              /**
-               * Store the current range for reference
-               */
+                /**
+                 * Store the current range for reference
+                 */
 
-              range = userSelection.getRangeAt(0);
+                range = userSelection.getRangeAt(0);
 
-              /**
-               * Check common ancestor so we don't apply styles
-               * across main block level elements (this is another
-               * convention ripped from Medium). Maybe this should
-               * be altered to allow for multiline pull quotes?
-               */
+                /**
+                 * Check common ancestor so we don't apply styles
+                 * across main block level elements (this is another
+                 * convention ripped from Medium). Maybe this should
+                 * be altered to allow for multiline pull quotes?
+                 */
 
-              commonAncestor = range.commonAncestorContainer;
+                commonAncestor = range.commonAncestorContainer;
 
-              if (
-                commonAncestor.tagName &&
-                'DIV' === commonAncestor.tagName.toUpperCase()
-              ) {
-                return true;
+                if (
+                  commonAncestor.tagName &&
+                  'DIV' === commonAncestor.tagName.toUpperCase()
+                ) {
+                  return true;
+                }
+
+                /**
+                 * Get range rectange details so we know
+                 * where to place the tooltip
+                 */
+
+                rect      = range.getBoundingClientRect();
+                rectTop   = rect.top;
+                rectRight = rect.right;
+                rectLeft  = rect.left;
+
+                /**
+                 * Use jqLite to establish the tooltip's position and
+                 * let Angular know to change the tooltip's class
+                 */
+
+                tooltipEl.css({ 
+                  top: (rectTop - 70) +'px', 
+                  left: ((rectRight + rectLeft) / 2 - tooltipElHalfWidth ) + 'px' 
+                });
+
+                scope.highlighted = true;
+
+              } else {
+                scope.highlighted = false;
               }
 
-              /**
-               * Get range rectange details so we know
-               * where to place the tooltip
-               */
-
-              rect      = range.getBoundingClientRect();
-              rectTop   = rect.top;
-              rectRight = rect.right;
-              rectLeft  = rect.left;
-
-              /**
-               * Use jqLite to establish the tooltip's position and
-               * let Angular know to change the tooltip's class
-               */
-
-              tooltipEl.css({ 
-                top: (rectTop - 70) +'px', 
-                left: ((rectRight + rectLeft) / 2 - tooltipElHalfWidth ) + 'px' 
-              });
-
-              scope.highlighted = true;
-
-            } else {
-              scope.highlighted = false;
-            }
-
-            scope.$apply();
+              scope.$apply();
+            }, 20);
           });
           
           /**
