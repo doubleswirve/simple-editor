@@ -12,6 +12,22 @@ editorApp.service('rangeUtility', [function(){
   this.selection = window.getSelection();
 
   /**
+   * Get range's relative offset
+   */
+
+  this.getOffsetRelativeTo = function(node, index){
+    index = index === undefined ? 0 : index;
+
+    var range = this.selection.getRangeAt(index)
+      , preCaretRange = range.cloneRange();
+
+    preCaretRange.selectNodeContents(node);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+
+    return preCaretRange.toString().length;
+  };
+
+  /**
    * Set caret position within a specified node (node)
    * with an offset relative to that node
    */

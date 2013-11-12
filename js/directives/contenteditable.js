@@ -70,8 +70,7 @@ editorApp.directive(
            */
 
           var userSelection = rangeUtility.selection
-            , range
-            , preCaretRange;
+            , range;
 
           var parentNode
             , parentOffset
@@ -148,11 +147,7 @@ editorApp.directive(
              */
 
             range = userSelection.getRangeAt(0);
-            preCaretRange = range.cloneRange();
-            preCaretRange.selectNodeContents(parentNode);
-            preCaretRange.setEnd(range.endContainer, range.endOffset);
-
-            parentOffset = preCaretRange.toString().length;
+            parentOffset = rangeUtility.getOffsetRelativeTo(parentNode);
 
             /**
              * Prevent backspace from deleting the first child node (e.g., We don't want
